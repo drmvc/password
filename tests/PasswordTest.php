@@ -9,13 +9,11 @@ class PasswordTest extends TestCase
 {
 
     private $password;
-    private $salt;
 
     public function __construct(string $name = null, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->password = 'dummy_password';
-        $this->salt = '75fef76a02ec8914f83f3d3d30298eef118eb98b';
     }
 
     public function test__construct()
@@ -32,7 +30,7 @@ class PasswordTest extends TestCase
     public function testMake()
     {
         $obj = new Password();
-        $hash = $obj->make($this->password, PASSWORD_DEFAULT, ['salt' => $this->salt]);
+        $hash = $obj->make($this->password, PASSWORD_DEFAULT);
         $len = \strlen($hash);
 
         $this->assertEquals(60, $len);
@@ -41,7 +39,7 @@ class PasswordTest extends TestCase
     public function testVerify()
     {
         $obj = new Password();
-        $hash = $obj->make($this->password, PASSWORD_DEFAULT, ['salt' => $this->salt]);
+        $hash = $obj->make($this->password, PASSWORD_DEFAULT);
         $valid = $obj->verify($this->password, $hash);
         $not_valid = $obj->verify($this->password . 'asd', $hash);
 
@@ -52,7 +50,7 @@ class PasswordTest extends TestCase
     public function testInfo()
     {
         $obj = new Password();
-        $hash = $obj->make($this->password, PASSWORD_DEFAULT, ['salt' => $this->salt]);
+        $hash = $obj->make($this->password, PASSWORD_DEFAULT);
         $info = $obj->info($hash);
 
         $this->assertCount(3, $info);
@@ -62,9 +60,9 @@ class PasswordTest extends TestCase
     public function testRehash()
     {
         $obj = new Password();
-        $hash = $obj->make($this->password, PASSWORD_DEFAULT, ['salt' => $this->salt]);
-        $rehash1 = $obj->rehash($hash, PASSWORD_ARGON2I, ['salt' => $this->salt]);
-        $rehash2 = $obj->rehash($hash, PASSWORD_DEFAULT, ['salt' => $this->salt]);
+        $hash = $obj->make($this->password, PASSWORD_DEFAULT);
+        $rehash1 = $obj->rehash($hash, PASSWORD_ARGON2I);
+        $rehash2 = $obj->rehash($hash, PASSWORD_DEFAULT);
 
         $this->assertTrue($rehash1);
         $this->assertFalse($rehash2);
