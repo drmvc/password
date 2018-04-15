@@ -61,11 +61,9 @@ class PasswordTest extends TestCase
     {
         $obj = new Password();
         $hash = $obj->make($this->password, PASSWORD_DEFAULT);
-        $rehash1 = $obj->rehash($hash, PASSWORD_ARGON2I);
-        $rehash2 = $obj->rehash($hash, PASSWORD_DEFAULT);
+        $rehash = $obj->rehash($hash, PASSWORD_DEFAULT);
 
-        $this->assertTrue($rehash1);
-        $this->assertFalse($rehash2);
+        $this->assertFalse($rehash);
     }
 
 }
