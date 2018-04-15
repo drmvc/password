@@ -8,4 +8,39 @@
 
 # DrMVC\Password
 
+A small wrapper library for working with password hashes.
+
     composer require drmvc/password
+
+## How to use
+
+More examples you can find [here](extra).
+
+```php
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$obj = new \DrMVC\Password();
+
+// Generate hash from string
+$hash = $obj->make('some_pass');
+
+// Get info about current hash
+$info = $obj->info($hash);
+
+// Verify if password is valid
+$verify1 = $obj->verify('some_pass', $hash); // true
+$verify2 = $obj->verify('other_pass', $hash); // false
+
+// Check if rehashing is required
+$rehash = $obj->rehash($hash); // false
+```
+
+## About PHP Unit Tests
+
+First need to install all dev dependencies via `composer update`, then
+you can run tests by hands from source directory via `./vendor/bin/phpunit` command.
+
+# Links
+
+* [DrMVC Framework](https://drmvc.com)
